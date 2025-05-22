@@ -1,0 +1,62 @@
+## Build results
+bin/
+obj/
+[Ll]og/
+*.log
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vscode/
+*.swp
+
+## Auto-generated files
+Generated\ Files/
+
+## Visual Studio files
+.vs/
+*.dbmdl
+*.pdb
+*.cache
+*.ilk
+*.aps
+*.ncb
+*.sbr
+*.tlb
+*.tli
+*.tlh
+
+## Backup & crash dumps
+*.bak
+*.old
+*.orig
+*.tmp
+*.mdmp
+
+## NuGet
+*.nupkg
+# The packages folder can be ignored because of PackageReference
+**/packages/*
+!**/packages/build/
+!**/packages/repositories.config
+
+# If using dotnet CLI
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Rider
+.idea/
+*.sln.iml
+
+## ASP.NET
+appsettings.Development.json
+appsettings.*.json
+
+## OS generated
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini

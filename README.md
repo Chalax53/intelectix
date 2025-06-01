@@ -1,0 +1,44 @@
+# Description
+
+This API calls a local Ollama model, specifically Llama3.1, asking for translations. If a translation has been previously requested, then the API checks the redis cache before calling the Ollama model.
+
+# Requirements
+
+To have this API work properly, you'll need to install Docker on your computer, as well as Ollama for the model.
+
+To download Ollama and get the models running, you can do that [here](https://github.com/ollama/ollama?tab=readme-ov-file).
+
+To install Docker, if on a windows, you can install Docker Desktop from [here](https://docs.docker.com/desktop/setup/install/windows-install/). If on a Mac, you can install it [here](https://docs.docker.com/desktop/setup/install/mac-install/).
+
+# Configurations
+
+In appsettings.json, you can change the following configurations:
+
+1. Ollama model selected, in the ModelName attribute (default llama3.1).
+2. Redis expiration time, in the CacheExpirationHours attribute (default 24).
+
+# How to run
+
+To get this API up and running, you first need to get the Ollama model set up:
+
+1. After installing Ollama, open the command prompt or terminal.
+2. Run/install the Llama3.1 model with `ollama run llama3.1`.
+
+To get the Redis server set up:
+
+1. Open Docker desktop to get Docker running.
+2. In the command prompt or terminal , run `docker run -d --name redis -p 6379:6379 redis:latest`
+3. Check that there is a container for Redis running in Docker Desktop.
+
+To run the API:
+
+1. Go to the projects directory in the terminal.
+2. Run `dotnet run`.
+
+In Postman, you can check if this works by calling the API endpoint to http://localhost:5000/api/translation and passing the requested translations in the following structure as a raw JSON file:
+
+{
+"sourceLanguage": "English",
+"targetLanguage": "French",
+"text": "Hello, how are you?"
+}

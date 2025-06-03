@@ -35,4 +35,11 @@ namespace SimpleTranslationService.Models
         public string Response { get; set; } = string.Empty;
         public bool Done { get; set; }
     }
+
+    // Request model for BLEU evaluation
+    public class TranslationEvaluationRequest
+    {
+        public TranslationRequest TranslationRequest { get; set; } = new();
+        public string ReferenceTranslation { get; set; } = string.Empty;
+    }
 }

@@ -109,13 +109,12 @@ namespace SimpleTranslationService.Services
 
             // Filantro prompt
             string systemPrompt = _configuration["Ollama:SystemPromptFactories"] ??
-                "You are a translation assistant specializing in factory or maquila related documents. " +
-                "Whenever translating, interpret 'planta' as 'factory', not a living organic plant. " +
-                "Make sure you keep the context relevant to ensure proper translations. " +
+                "You are a translation assistant specializing in Non-Profit company documents. " +
+                "Whenever translating, interpret 'AC' as asociacion civil, in spanish. " +
                 "Only output the translated text.";
 
             // The user‐prompt remains the same “Translate the following text …”
-            string userPrompt = $"Translate the following text from {request.SourceLanguage} to {request.TargetLanguage}:\n\n{request.Text}";
+                string userPrompt = $"Translate the following text from {request.SourceLanguage} to {request.TargetLanguage}:\n\n{request.Text}";
 
             var ollamaRequest = new OllamaRequest
             {
@@ -168,13 +167,13 @@ namespace SimpleTranslationService.Services
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation(
-            "Translating (Filantro context) from {SourceLanguage} to {TargetLanguage}",
+            "Translating (Maquila context) from {SourceLanguage} to {TargetLanguage}",
             request.SourceLanguage, request.TargetLanguage);
 
         var cacheKey = _cacheService.GenerateTranslationKey(
             request.SourceLanguage,
             request.TargetLanguage,
-            request.Text + ":Filantro");
+            request.Text + ":Maquila");
 
         try
         {
@@ -182,16 +181,17 @@ namespace SimpleTranslationService.Services
                 cacheKey, cancellationToken);
             if (cached != null)
             {
-                _logger.LogInformation("Cache hit (Filantro) for key: {CacheKey}", cacheKey);
+                _logger.LogInformation("Cache hit (Maquila) for key: {CacheKey}", cacheKey);
                 return cached;
             }
 
-            _logger.LogInformation("Cache miss (Filantro), calling Ollama API");
+            _logger.LogInformation("Cache miss (Maquila), calling Ollama API");
 
             // Prompt
-            string systemPrompt = _configuration["Ollama:SystemPromptFilantro"] ??
-                "You are a translation assistant specializing in Non-Profit company documents. " +
-                "Whenever translating, interpret 'AC' as asociacion civil, in spanish. " +
+            string systemPrompt = _configuration["Ollama:SystemPromptMaquila"] ??
+               "You are a translation assistant specializing in factory or maquila related documents. " +
+                "Whenever translating, interpret 'planta' as 'factory', not a living organic plant. " +
+                "Make sure you keep the context relevant to ensure proper translations. " +
                 "Only output the translated text.";
 
             string userPrompt = $"Translate the following text from {request.SourceLanguage} to {request.TargetLanguage}:\n\n{request.Text}";

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using System.Text.RegularExpressions;
 
 namespace Services
 {
@@ -9,11 +10,11 @@ namespace Services
     {
         public static double ComputeBLEU(string reference, string translation, int maxN = 4)
         {
-            var referenceTokens = reference.Split(' ');
-            var translationTokens = translation.Split(' ');
+            var referenceTokens = Preprocess(reference);
+            var translationTokens = Preprocess(translation);
 
-            double brevityPenalty = translationTokens.Length < referenceTokens.Length
-                ? Math.Exp(1.0 - (double)referenceTokens.Length / translationTokens.Length)
+            double brevityPenalty = translationTokens.Count < referenceTokens.Count
+                ? Math.Exp(1.0 - (double)referenceTokens.Count / translationTokens.Count)
                 : 1.0;
 
             double[] precisions = new double[maxN];
@@ -27,15 +28,27 @@ namespace Services
                 precisions[n - 1] = candNGrams.Count > 0 ? (double)matchCount / candNGrams.Count : 0.0;
             }
 
-            double geometricMean = precisions.Any(p => p == 0) ? 0 : Math.Exp(precisions.Select(p => Math.Log(p)).Average());
+            double geometricMean = precisions.Any(p => p == 0)
+                ? 0
+                : Math.Exp(precisions.Select(p => Math.Log(p)).Average());
 
             return brevityPenalty * geometricMean;
         }
 
-        private static List<string> GetNGrams(string[] tokens, int n)
+        private static List<string> Preprocess(string text)
+        {
+            // Convierte a minúsculas y separa palabras y puntuación como tokens
+            var pattern = @"\p{L}+|\p{P}";
+            return Regex.Matches(text.ToLowerInvariant(), pattern)
+                        .Cast<Match>()
+                        .Select(m => m.Value)
+                        .ToList();
+        }
+
+        private static List<string> GetNGrams(List<string> tokens, int n)
         {
             var ngrams = new List<string>();
-            for (int i = 0; i <= tokens.Length - n; i++)
+            for (int i = 0; i <= tokens.Count - n; i++)
             {
                 ngrams.Add(string.Join(" ", tokens.Skip(i).Take(n)));
             }

@@ -6,6 +6,8 @@ namespace SimpleTranslationService.Models
         public string SourceLanguage { get; set; } = string.Empty;
         public string TargetLanguage { get; set; } = string.Empty;
         public string Text { get; set; } = string.Empty;
+
+        public string Context { get; set; } = string.Empty;
     }
 
     // Response model with translation result

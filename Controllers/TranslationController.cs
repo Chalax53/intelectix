@@ -37,8 +37,24 @@ namespace SimpleTranslationService.Controllers
             _logger.LogInformation("Received translation request from {SourceLanguage} to {TargetLanguage}", 
                 request.SourceLanguage, request.TargetLanguage);
 
-            // Process translation
-            var response = await _translationService.TranslateAsync(request, cancellationToken);
+            // Process translation according to given context
+            TranslationResponse response;
+            if (request.Context?.Equals("Filantro", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                response = await _translationService
+                    .TranslateFilantroAsync(request, cancellationToken);
+            }
+            else if (request.Context?.Equals("Maquila", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                response = await _translationService
+                    .TranslateMaquilaAsync(request, cancellationToken);
+            }
+            else
+            {
+                // default (no special context)
+                response = await _translationService
+                    .TranslateAsync(request, cancellationToken);
+            }
 
             if (!response.Success)
                 return StatusCode(StatusCodes.Status500InternalServerError, response);

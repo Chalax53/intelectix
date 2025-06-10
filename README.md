@@ -2,6 +2,46 @@
 
 This API calls a local Ollama model, specifically Llama3.1, asking for translations. If a translation has been previously requested, then the API checks the redis cache before calling the Ollama model.
 
+# Palabras Clave
+Ollama: herramienta de fuente abierta que permite usuarios correr LLMs de manera local sin necesidad de conectarse a servicios en la nube.
+Llama3.1: modelo LLM de fuente abierta creado por Meta
+Bleu:
+
+# 1.Introduccion
+La empresa Intelectix cuenta con un software llamado SmartLPA, el cual está disponible para diversos países en los que se hablan distintos idiomas. Ellos buscan una manera de optimizar la forma en la que realizan las traducciones del contenido del software, sin tener que hacer cambios importantes en su actual código, por lo que solicitan la construcción de un servicio web de traducción automática que integre un Large Language Model (LLM) a elección de cada equipo, almacene en caché resultados para evitar llamadas repetidas y tenga un tiempo de respuesta en milisegundos. En particular, se deben cubrir los siguientes aspectos:
+
+  a) Recepción de solicitudes de traducción: El sistema debe exponer endpoints HTTP donde un cliente envíe el texto a traducir, junto con el idioma de origen y destino, y, opcionalmente, un contexto (por ejemplo, “Filantro” o “Maquila”) que adapte el comportamiento del modelo de IA.
+  
+  b) Llamada al modelo de IA: Utilizar un LLM para generar la traducción basada en los parámetros recibidos.
+
+  c) Caché de traducciones: Emplear algún mecanismo de almacenamiento en caché, de modo que si una misma combinación de texto e idiomas ya se tradujo recientemente, se devuelva la versión almacenada sin invocar nuevamente al modelo de IA.
+
+  d) Performance: Que el servicio tenga un tiempo de respuesta en milisegundos, sin llegar a segundos.
+  
+  e) Plataforma: Que el código sea desarrollado en .NET a manera de bloque para que sea fácil de implementar en su sistema actual.
+
+Adicionalmente se incluye otro servicio que permite evaluar la calidad de las traducciones generadas por medio de una métrica especializada en evaluación de traducciones automáticas.
+Con este planteamiento, el servicio busca ofrecer traducciones rápidas, gracias a Redis que es el sistema de caché que se decidió utilizar, configurables según contexto y evaluables objetivamente, todo ello como parte de una API RESTful desplegada sobre ASP .NET Core.
+
+
+
+# 2.Metodologia de la investigacion
+2.1 Introducción a la Metodología de Investigación
+
+2.2 Lectura y Selección de Artículos
+
+2.3 Elaboración de un Estado del Arte
+
+
+# Analisis y Resultados
+3.1 Medición e Interpretación de Resultados
+
+3.2 Comparación de Resultados y Discusión
+
+# Conclusiones y Trabajos Futuros
+
+
+
 # Requirements
 
 To have this API work properly, you'll need to install Docker on your computer, as well as Ollama for the model.
